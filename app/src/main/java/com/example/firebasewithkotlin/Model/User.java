@@ -1,28 +1,29 @@
 package com.example.firebasewithkotlin.Model;
 
-import androidx.annotation.Nullable;
-
 public class User {
+    String age;
     String name;
-    String number;
+    String profession;
     String uid;
-
-
-    public User(String name, String number) {
-        this.name = name;
-        this.number = number;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
 
     public User() {
     }
+
+    public User(String age, String name, String profession, String uid) {
+        this.age = age;
+        this.name = name;
+        this.profession = profession;
+        this.uid = uid;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
 
     public String getName() {
         return name;
@@ -32,22 +33,19 @@ public class User {
         this.name = name;
     }
 
-    public String getNumber() {
-        return number;
+    public String getProfession() {
+        return profession;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setProfession(String profession) {
+        this.profession = profession;
     }
 
-    @Override
-    public boolean equals(@Nullable Object obj) {
-        if(obj instanceof User){
-            User user= (User) obj;
-            return this.uid.equals(user.getUid());
-        }
-        else{
-            return false;
-        }
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
