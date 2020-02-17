@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             statusTextView.text = "Successfully logout"
         }
         button3.setOnClickListener {
-           // var intent: Intent = Intent(this@MainActivity, Main2Activity::class.java)
+            var intent: Intent = Intent(this@MainActivity, Main2Activity::class.java)
             startActivity(intent)
         }
 
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
               //  var intent=Intent(this@MainActivity,Main2Activity::class.java)
                 startActivity(intent)
 
-                Log.d(TAG,FirebaseAuth.getInstance().currentUser?.uid);
+                Log.d(TAG,FirebaseAuth.getInstance().currentUser?.uid)
             }
             else{
                 Log.d(TAG,"Not signIn");
