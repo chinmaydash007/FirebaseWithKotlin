@@ -1,72 +1,65 @@
 package com.example.firebasewithkotlin
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthProvider
-import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_login_activtity.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
-    var TAG="mytag"
+    private lateinit var firebaseAuthStateListener: FirebaseAuth.AuthStateListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         firebaseAuth = FirebaseAuth.getInstance()
+        firebaseAuthStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+            if (firebaseAuth.currentUser == null) {
+                var intent = Intent(this@MainActivity, LoginActivtity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
+                finish()
+            }
 
-
-
-        signInBtn.setOnClickListener {
-            var email = email.text.toString();
-            var password = password.text.toString()
-            firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        showToast("Successfully login")
-//                        statusTextView.text = "LoginIn"
-//                        var firebaseUser: FirebaseUser? = firebaseAuth.currentUser
-//                        firebaseUser.let {
-//                            var email = firebaseUser?.email
-//                            statusTextView.append("\n" + email)
-//                        }
-                    } else {
-                        showToast(task.exception?.message.toString())
-                    }
-                }
-
-        }
-
-
-        logoutBtn.setOnClickListener {
-            firebaseAuth.signOut()
-            statusTextView.text = "Successfully logout"
-        }
-        button3.setOnClickListener {
-            var intent: Intent = Intent(this@MainActivity, Main2Activity::class.java)
-            startActivity(intent)
         }
 
     }
 
     override fun onStart() {
         super.onStart()
-        FirebaseAuth.getInstance().addAuthStateListener {
-            val user=firebaseAuth.currentUser
-            if(user!=null){
-              //  var intent=Intent(this@MainActivity,Main2Activity::class.java)
-                startActivity(intent)
+        if (firebaseAuth.currentUser == null) {
+            var intent = Intent(this@MainActivity, LoginActivtity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+            finish()
 
-                Log.d(TAG,FirebaseAuth.getInstance().currentUser?.uid)
-            }
-            else{
-                Log.d(TAG,"Not signIn");
-            }
         }
+        FirebaseAuth.getInstance().addAuthStateListener(firebaseAuthStateListener)
+
+    }
+    override fun onStop() {
+        super.onStop()
+        FirebaseAuth.getInstance().removeAuthStateListener(firebaseAuthStateListener)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.logout->{
+                firebaseAuth.signOut()
+            }
+        }
+        return true
+    }
 
 }
