@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login_activtity.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
@@ -26,6 +27,14 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+        button_firebaseRealTime.setOnClickListener {
+            var intent = Intent(this, FirebaseRealTimeActivity::class.java)
+            startActivity(intent)
+        }
+        button_firebaseFireStore.setOnClickListener {
+            var intent = Intent(this, FirebaseFirestoreActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
@@ -41,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().addAuthStateListener(firebaseAuthStateListener)
 
     }
+
     override fun onStop() {
         super.onStop()
         FirebaseAuth.getInstance().removeAuthStateListener(firebaseAuthStateListener)
@@ -54,8 +64,8 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.logout->{
+        when (item.itemId) {
+            R.id.logout -> {
                 firebaseAuth.signOut()
             }
         }
