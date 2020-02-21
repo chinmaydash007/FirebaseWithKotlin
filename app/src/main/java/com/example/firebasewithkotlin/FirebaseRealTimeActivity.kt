@@ -13,7 +13,7 @@ class FirebaseRealTimeActivity : AppCompatActivity(R.layout.activity_firebase_re
     lateinit var firebaseAuth: FirebaseAuth
     lateinit var databaseReference: DatabaseReference
     private var TAG = "mytag"
-   // lateinit var valueEventListener: ValueEventListener
+    lateinit var valueEventListener: ValueEventListener
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,19 +22,19 @@ class FirebaseRealTimeActivity : AppCompatActivity(R.layout.activity_firebase_re
         firebaseAuth = FirebaseAuth.getInstance()
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("users")
-//        valueEventListener = object : ValueEventListener {
-//            override fun onCancelled(p0: DatabaseError) {
-//            }
-//
-//            override fun onDataChange(p0: DataSnapshot) {
-//                for (userSnapShot in p0.children) {
-//                    var user: User? =userSnapShot.getValue(User::class.java)
-//                    log(user?.name+" "+user?.number)
-//                }
-//            }
-//        }
+        valueEventListener = object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
 
-       // databaseReference.addValueEventListener(valueEventListener)
+            override fun onDataChange(p0: DataSnapshot) {
+                for (userSnapShot in p0.children) {
+                    var user: User? =userSnapShot.getValue(User::class.java)
+                    log(user?.name+" "+user?.number)
+                }
+            }
+        }
+
+        databaseReference.addValueEventListener(valueEventListener)
         button_upload.setOnClickListener {
             var name = editText_name.text.toString()
             var number = editText_number.text.toString()
@@ -45,6 +45,7 @@ class FirebaseRealTimeActivity : AppCompatActivity(R.layout.activity_firebase_re
     private fun uploadData(name: String, number: String) {
         val key = databaseReference.push().key
         val user=User(name,number)
+
 
         key?.let {
             databaseReference.child(key).setValue(user)
@@ -60,7 +61,7 @@ class FirebaseRealTimeActivity : AppCompatActivity(R.layout.activity_firebase_re
 
     override fun onStop() {
         super.onStop()
-        //databaseReference.removeEventListener(valueEventListener)
+        databaseReference.removeEventListener(valueEventListener)
     }
 
 }
