@@ -10,13 +10,12 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login_activtity.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firebaseAuthStateListener: FirebaseAuth.AuthStateListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseAuthStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             if (firebaseAuth.currentUser == null) {
@@ -33,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         }
         button_firebaseFireStore.setOnClickListener {
             var intent = Intent(this, FirebaseFirestoreActivity::class.java)
+            startActivity(intent)
+        }
+        button_realtime_query.setOnClickListener {
+            var intent = Intent(this@MainActivity, FirebaseRealtimeDatabaseWithQuery::class.java)
             startActivity(intent)
         }
 

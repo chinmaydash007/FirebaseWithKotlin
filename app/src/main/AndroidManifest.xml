@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FirebaseFirestoreActivity"></activity>
+        <activity android:name=".FirebaseRealtimeDatabaseWithQuery"></activity>
+        <activity android:name=".FirebaseFirestoreActivity" />
         <activity android:name=".FirebaseRealTimeActivity" />
         <activity android:name=".LoginActivtity" />
         <activity android:name=".SignUpActivity" />
